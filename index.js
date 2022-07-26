@@ -16,6 +16,9 @@ const Carrito = require('./persistencia/daos/carritoDaos')
 const {productos} = require('./apiProd')
 const script = require('bcrypt')
 const saltRounds = 10
+const {MONGO_URL, SESSION_SECRET} = require('./config/config')
+
+
 
 const routerProductos = require('./routers/productos')
 const routerCarrito = require('./routers/carrito')
@@ -41,11 +44,11 @@ app.use('/api/carrito', routerCarrito)
 app.use(cookieParser('secreto'))
 app.use(session({
   store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://tomasSesiones:asd123@tomi.fuaxu.mongodb.net/sesiones?retryWrites=true&w=majority',
+    mongoUrl: MONGO_URL,
     mongoOptions: advancedOptions,
     ttl: 30
   }),
-  secret: 'secreto',
+  secret: SESSION_SECRET,
   resave: true,
   saveUninitialized: true
 }))
